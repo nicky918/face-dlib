@@ -5,8 +5,6 @@ set(CMAKE_CXX_STANDARD 11)
 
 SET(CMAKE_BUILD_TYPE Debug)
 
-SET(CMAKE_BUILD_TYPE Debug)
-
 find_package(OpenCV REQUIRED)
 
 if (NOT OpenCV_FOUND)
