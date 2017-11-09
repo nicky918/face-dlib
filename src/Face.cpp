@@ -267,7 +267,7 @@ void Face::setMask_img(const Mat &mask_img) {
     Face::mask_img = mask_img;
 }
 
-const cv::vector<cv::Point, std::allocator<cv::Point>> &Face::getFacePts() const {
+const std::vector<cv::Point, std::allocator<cv::Point>> &Face::getFacePts() const {
     return facePts;
 }
 
