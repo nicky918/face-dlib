@@ -20,7 +20,7 @@ if (NOT dlib_FOUND)
     message(WARNING "dlib not found. project will not be built.")
 else()
 #    message(STATUS ${dlib_INCLUDE_DIRS})
-    include_directories(${dlib_INCLUDE_DIRS})
+#    include_directories(${dlib_INCLUDE_DIRS})
 endif()
 
 set(SEETA_FACE_LIBS /Users/vista/CLionProjects/SeetaFaceEngine/lib/libseeta_facedet_lib.dylib)
@@ -30,6 +30,7 @@ include_directories(../SeetaFaceEngine/FaceDetection/include)
 set(source header/Utils.h src/FaceDetect.cpp src/Utils.cpp
         header/FaceDetect.h header/common.h
 #        Main.cpp
+#        face_detection_ex.cpp
         src/Face.cpp header/Face.h )
 
 set(libfile ${source} interface.h interface.cpp)
@@ -52,4 +53,6 @@ set(libfile ${source} interface.h interface.cpp)
 
 add_library(faceB SHARED ${libfile})
 
-target_link_libraries(faceB ${OpenCV_LIBS} ${dlib_LIBS} ${SEETA_FACE_LIBS})
+#target_link_libraries(faceB ${OpenCV_LIBS} ${dlib_LIBS} ${SEETA_FACE_LIBS})
+
+target_link_libraries(faceB ${OpenCV_LIBS} dlib::dlib ${SEETA_FACE_LIBS})
