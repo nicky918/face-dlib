@@ -16,7 +16,7 @@ extern "C" {
 
     void hello();
 
-    void run(const char *a, const char *b);
+    int run(const char *a, const char *b);
 };
 
 
