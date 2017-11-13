@@ -15,7 +15,7 @@ using namespace seeta;
 
 //int detect_by_seetface(const Mat &img, dlib::rectangle &face, cv::Mat & gallery_img_gray);
 
-int detect_face_and_align(string first_file_path, string second_file_path);
+int detect_face_and_align(string photo, string model_photo);
 
 int detect_by_seetface(const Mat & , dlib::rectangle & , cv::Mat & );
 

@@ -77,8 +77,8 @@ void Face::get_chin_eyebrow(Mat1d vec){
 void Face::GetOutLine(Mat & img) {
     Rect face_bound_ex = Rect( Point2d( std::max(face_bound.x - face_bound.width,0) ,
                                         std::max(face_bound.y - face_bound.height,0) ) ,
-                               Size2i ( std::min(face_bound.width * 3, img.cols - face_bound.x + face_bound.width),
-                                        std::min(face_bound.height * 3, img.rows - face_bound.y + face_bound.height) ) );
+                               Size2i ( std::min(img.cols, std::min(face_bound.width * 3, img.cols - face_bound.x + face_bound.width) ),
+                                        std::min(img.rows, std::min(face_bound.height * 3, img.rows - face_bound.y + face_bound.height) ) ) );
 
     Mat cropImg(img,face_bound_ex);
 
@@ -107,7 +107,7 @@ void Face::GetOutLine(Mat & img) {
                 break;
             }
         }
-        for (int w = canny.rows - 1; w > 0; --w) {
+        for (int w = nc - 1; w >= 0; --w) {
             if( *(data+w) > 150){
                 outline[1].push_back( Point2d(w + face_bound_ex.x ,h + face_bound_ex.y ) );
                 break;
