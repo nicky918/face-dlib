@@ -12,10 +12,15 @@ using namespace cv;
 int main(int argc, const char ** argv)
 {
     // load model
-    dlib::deserialize(modelPath) >> sp;
+    if( faceSwap.init(modelPath) == -1)
+        return -1;
 
-    string baseImgPath = "/Users/vista/Documents/PIC/searchimg/model/68.jpg";
-    string baseImgPath2 = "/Users/vista/Documents/PIC/searchimg/model/33.jpg";
+    string photo = "/Users/vista/Documents/PIC/searchimg/model/41.jpg";
+    string modelpath = "/Users/vista/Documents/PIC/searchimg/model/45.jpg";
 
-    detect_face_and_align(baseImgPath,baseImgPath2);
+//    detect_face_and_align(baseImgPath,baseImgPath2);
+
+    detect_face_and_swap(photo,modelpath);
+
+    return 0;
 }

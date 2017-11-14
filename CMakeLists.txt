@@ -31,9 +31,9 @@ set(source header/Utils.h src/FaceDetect.cpp src/Utils.cpp
         header/FaceDetect.h header/common.h
 #        Main.cpp
 #        face_detection_ex.cpp
-        src/Face.cpp header/Face.h )
+        src/Face.cpp header/Face.h src/FaceSwap.cpp header/FaceSwap.h)
 
-set(libfile ${source} interface.h interface.cpp)
+set(libfile ${source} header/interface.h src/interface.cpp)
 
 
 #if you don't want to use openMP, you should comment this line
@@ -47,7 +47,7 @@ set(libfile ${source} interface.h interface.cpp)
 #    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 #endif()
 
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
 #add_executable(faceB ${source})
 

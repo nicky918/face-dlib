@@ -10,6 +10,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/photo/photo.hpp>
 
+#include <dlib/opencv.h>
 #include <dlib/image_processing/frontal_face_detector.h>
 #include <dlib/image_processing.h>
 #include <dlib/image_io.h>
@@ -17,8 +18,8 @@
 #include <cctype>
 #include <iostream>
 #include <iterator>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
@@ -54,7 +55,7 @@ extern string out_path;
 extern string fd_model;
 
 
-extern dlib::shape_predictor sp;
+//extern dlib::shape_predictor sp;
 
 
 

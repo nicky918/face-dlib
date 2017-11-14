@@ -23,7 +23,7 @@ else()
 #    include_directories(${dlib_INCLUDE_DIRS})
 endif()
 
-set(SEETA_FACE_LIBS /opt/vista/SeetaFaceEngine/FaceDetection/build/libseeta_facedet_lib.so)
+set(SEETA_FACE_LIBS ../SeetaFaceEngine/FaceDetection/build/libseeta_facedet_lib.so)
 
 set(dlib_so /usr/local/lib64/libdlib.so)
 
@@ -33,9 +33,9 @@ set(source header/Utils.h src/FaceDetect.cpp src/Utils.cpp
         header/FaceDetect.h header/common.h
 #        Main.cpp
 #        face_detection_ex.cpp
-        src/Face.cpp header/Face.h )
+        src/Face.cpp header/Face.h src/FaceSwap.cpp header/FaceSwap.h)
 
-set(libfile ${source} interface.h interface.cpp)
+set(libfile ${source} header/interface.h src/interface.cpp)
 
 
 #if you don't want to use openMP, you should comment this line

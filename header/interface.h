@@ -5,8 +5,10 @@
 #ifndef FACEA_INTERFACE_H
 #define FACEA_INTERFACE_H
 
-#include "header/common.h"
-#include "header/FaceDetect.h"
+#include "common.h"
+#include "FaceDetect.h"
+
+extern bool bInit;
 
 extern "C" {
     /*
@@ -16,7 +18,9 @@ extern "C" {
 
     void hello();
 
-    int run(const char *a, const char *b);
+    int swap_head(const char *a, const char *b);
+
+    int swap_face(const char *a, const char *b);
 };
 
 

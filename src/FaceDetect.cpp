@@ -4,11 +4,54 @@ using namespace std;
 
 using namespace cv;
 
-int detect_face_and_align(string first_file_path, string second_file_path){
+FaceSwap faceSwap;
+
+int detect_face_and_swap(string photo, string modelpath)
+{
+    cv::Mat img,img2;
+    cv::Rect rect,rect2;
+    int ret = detect_face_rect(photo,img,rect);
+
+    if(ret == -1)
+    {
+        std::cerr << photo << ": face detected failed" << std::endl;
+        return -1;
+    }
+
+    ret = detect_face_rect(modelpath,img2,rect2);
+
+    if(ret == -1)
+    {
+        std::cerr << modelpath << ":face detected failed" << std::endl;
+        return -1;
+    }
+
+    rect2.x += img.cols;
+
+    int height = std::max(img.rows,img2.rows);
+
+    cv::Mat mixedimg = cv::Mat(cv::Size(img.cols+img2.cols,height),CV_8UC3, cv::Scalar::all(0));
+
+    Mat imageROI1 = mixedimg(cv::Rect(0,0,img.cols,img.rows));
+    Mat imageROI2 = mixedimg(cv::Rect(img.cols,0,img2.cols,img2.rows));
+
+    img.copyTo(imageROI1);
+    img2.copyTo(imageROI2);
+
+    faceSwap.swapFaces2(mixedimg,rect,rect2);
+
+    imageROI2 = mixedimg(cv::Rect(img.cols,0,img2.cols,img2.rows));
+
+    cv::imwrite(out_path,imageROI2);
+
+    return 0;
+}
+
+int swap_head_ex(string first_file_path, string second_file_path){
 
     double scale  = 1.0;
 
-    Mat image = imread( first_file_path, 1 );
+    Mat image = imread( first_file_path );
     if (image.empty()){
         cerr << __FILE__ << __FUNCTION__ << __LINE__ << endl;
         cerr << "read image fail" << endl;
@@ -22,11 +65,17 @@ int detect_face_and_align(string first_file_path, string second_file_path){
         return -1;
     }
 
-    dlib::array2d<dlib::rgb_pixel> dimg,dimg2;
+//    dlib::array2d<dlib::rgb_pixel> dimg,dimg2;
 
-    dlib::load_image(dimg,first_file_path);
+//    dlib::load_image(dimg,first_file_path);
+//
+//    dlib::load_image(dimg2,second_file_path);
 
-    dlib::load_image(dimg2,second_file_path);
+    dlib::cv_image<dlib::rgb_pixel> dimg,dimg2;
+
+    dimg = image;
+
+    dimg2 = image2;
 
     Face face,face2;
 //    Mat img_proc ;
@@ -170,6 +219,29 @@ int detect_face_and_align(string first_file_path, string second_file_path){
     return 0;
 }
 
+int detect_face_rect(std::string path,cv::Mat & image, cv::Rect & rect)
+{
+    image = imread( path );
+    if (image.empty()){
+        cerr << __FILE__ << __FUNCTION__ << __LINE__ << endl;
+        cerr << "read image fail" << endl;
+        return -1;
+    }
+
+    Mat gray;
+
+    dlib::rectangle face_r;
+
+    int ret = detect_by_seetface(image,face_r,gray);
+
+    if(ret == -1)
+        return -1;
+
+    rect = cv::Rect((int)face_r.left(),(int)face_r.top(),(int)face_r.width(),(int)face_r.height());
+
+    return 0;
+
+}
 
 int detect_and_draw( Mat& img, dlib::array2d<dlib::rgb_pixel> & img_dlib,
                     Face & face,
@@ -187,7 +259,34 @@ int detect_and_draw( Mat& img, dlib::array2d<dlib::rgb_pixel> & img_dlib,
 
     t1 = cvGetTickCount();
 
-    dlib::full_object_detection shape = sp(img_dlib, face_r);
+    dlib::full_object_detection shape = faceSwap.getPose_model()(img_dlib, face_r);
+
+    t2 = cvGetTickCount() ;
+
+//    face.get_chin_eyebrow(current_shape);
+    face.get_chin_eyebrow(shape);
+
+
+    return 0;
+}
+
+int detect_and_draw( Mat& img, dlib::cv_image<dlib::rgb_pixel> & img_dlib,
+                     Face & face,
+                     double scale ){
+    int i = 0;
+    int64 t1 = 0,t2 = 0;
+    dlib::rectangle face_r;
+
+    Mat gray;
+
+    int ret = detect_by_seetface(img,face_r,gray);
+
+    if(ret == -1)
+        return -1;
+
+    t1 = cvGetTickCount();
+
+    dlib::full_object_detection shape = faceSwap.getPose_model()(img_dlib, face_r);
 
     t2 = cvGetTickCount() ;
 
