@@ -14,13 +14,15 @@ extern "C" {
     /*
      * return 0 if success , otherwise failed.
      * */
-    int init(const char *model1, const char* model2,const char *outpath);
+    int init(const char *model1, const char* model2);
 
     void hello();
 
     int swap_head(const char *a, const char *b);
 
     int swap_face(const char *a, const char *b);
+
+    void set_outpath(const char * a);
 };
 
 
