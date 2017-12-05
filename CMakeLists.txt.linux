@@ -3,7 +3,7 @@ project(faceB)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
-SET(CMAKE_BUILD_TYPE Debug)
+#SET(CMAKE_BUILD_TYPE Debug)
 
 find_package(OpenCV REQUIRED)
 
@@ -23,15 +23,14 @@ else()
 #    include_directories(${dlib_INCLUDE_DIRS})
 endif()
 
-set(SEETA_FACE_LIBS ../SeetaFaceEngine/FaceDetection/build/libseeta_facedet_lib.so)
+set(SEETA_FACE_LIBS ${PROJECT_SOURCE_DIR}/SeetaFaceEngine/FaceDetection/build/libseeta_facedet_lib.so)
 
 set(dlib_so /usr/local/lib64/libdlib.so)
 
 include_directories(../SeetaFaceEngine/FaceDetection/include)
 
 set(source header/Utils.h src/FaceDetect.cpp src/Utils.cpp
-        header/FaceDetect.h header/common.h
-#        Main.cpp
+        header/FaceDetect.h header/common.h  src/common.cpp
 #        face_detection_ex.cpp
         src/Face.cpp header/Face.h src/FaceSwap.cpp header/FaceSwap.h)
 
