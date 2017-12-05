@@ -24,14 +24,35 @@ int init(const char *model1, const char* model2)
 int swap_head(const char *a, const char *b){
     if(!bInit)
         return -2;
-    return swap_head_ex(std::string(a),std::string(b));
+    try {
+
+        return swap_head_ex(std::string(a),std::string(b));
+
+    }catch (cv::Exception & cve){
+        std::cerr << cve.what() << std::endl;
+    }catch (std::exception & se){
+        std::cerr << se.what() << std::endl;
+    }
+
+    return -1;
 }
 
 
 int swap_face(const char *a, const char *b){
     if(!bInit)
         return -2;
-    return detect_face_and_swap(std::string(a),std::string(b));
+
+    try {
+
+        return detect_face_and_swap(std::string(a),std::string(b));
+
+    }catch (cv::Exception & cve){
+        std::cerr << cve.what() << std::endl;
+    }catch (std::exception & se){
+        std::cerr << se.what() << std::endl;
+    }
+
+    return -1;
 }
 
 void hello()
