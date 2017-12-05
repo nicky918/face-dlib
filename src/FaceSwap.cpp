@@ -16,8 +16,11 @@ FaceSwap::~FaceSwap()
 
 void FaceSwap::swapFaces(cv::Mat &frame, cv::Rect &rect_ann, cv::Rect &rect_bob)
 {
-    this->pointsVet[0].clear();
-    this->pointsVet[1].clear();
+//    this->pointsVet[0].clear();
+//    this->pointsVet[1].clear();
+
+    this->facePts[0].clear();
+    this->facePts[1].clear();
 
     small_frame = getMinFrame(frame, rect_ann, rect_bob);
 
@@ -53,8 +56,11 @@ void FaceSwap::swapFaces(cv::Mat &frame, cv::Rect &rect_ann, cv::Rect &rect_bob)
 
 void FaceSwap::swapFaces2(cv::Mat &frame, cv::Rect &rect_ann, cv::Rect &rect_bob)
 {
-    this->pointsVet[0].clear();
-    this->pointsVet[1].clear();
+//    this->pointsVet[0].clear();
+//    this->pointsVet[1].clear();
+
+    this->facePts[0].clear();
+    this->facePts[1].clear();
 
     this->rect_ann = rect_ann;
     this->rect_bob = rect_bob;
@@ -64,6 +70,16 @@ void FaceSwap::swapFaces2(cv::Mat &frame, cv::Rect &rect_ann, cv::Rect &rect_bob
     frame_size = cv::Size(small_frame.cols, small_frame.rows);
 
     getFacePoints2(small_frame);
+
+
+//    for (int i = 0; i < 2; ++i) {
+//        for (auto itr = this->facePts[i].begin(); itr != facePts[i].end(); ++itr) {
+//            cv::circle(small_frame,*itr,3,cv::Scalar(0,255,0));
+//        }
+//    }
+//
+//    cv::imshow("sf",small_frame);
+//    cv::waitKey(0);
 
     getTransformationMatrices();
 
@@ -98,8 +114,10 @@ void FaceSwap::swapFaces2(cv::Mat &frame, cv::Rect &rect_ann, cv::Rect &rect_bob
 //    cv::imshow("img",warpped_faces_ann);
 //    cv::waitKey(0);
 
-    cv::Rect rectAnn = cv::boundingRect(this->pointsVet[0]);
-    cv::Rect rectBob = cv::boundingRect(this->pointsVet[1]);
+//    cv::Rect rectAnn = cv::boundingRect(this->pointsVet[0]);
+//    cv::Rect rectBob = cv::boundingRect(this->pointsVet[1]);
+    cv::Rect rectAnn = cv::boundingRect(this->facePts[0]);
+    cv::Rect rectBob = cv::boundingRect(this->facePts[1]);
 
 //    cv::rectangle(frame,rectAnn,cv::Scalar(255,0,0));
 
@@ -110,19 +128,20 @@ void FaceSwap::swapFaces2(cv::Mat &frame, cv::Rect &rect_ann, cv::Rect &rect_bob
     cv::Mat maskbobSub = mask_bob(rectBob);
 
     Mat output;
-    cv::seamlessClone(annWarppedMat,bobSub,maskbobSub,center,output,cv::NORMAL_CLONE);
+    cv::seamlessClone(annWarppedMat,bobSub,maskbobSub,center,output,cv::MONOCHROME_TRANSFER);
 
     output.copyTo(frame(rectBob));
 
-    cv::Mat bobWarppedMat = warpped_face_bob(rectAnn);
-
-    center = cv::Point(rectAnn.width/2,rectAnn.height/2);
-    cv::Mat anaSub = small_frame(rectAnn);
-    cv::Mat maskAnnSub = mask_ann(rectAnn);
-
-    cv::seamlessClone(bobWarppedMat,anaSub,maskAnnSub,center,output,cv::NORMAL_CLONE);
-
-    output.copyTo(frame(rectAnn));
+    // swap the face of photo as model's
+//    cv::Mat bobWarppedMat = warpped_face_bob(rectAnn);
+//
+//    center = cv::Point(rectAnn.width/2,rectAnn.height/2);
+//    cv::Mat anaSub = small_frame(rectAnn);
+//    cv::Mat maskAnnSub = mask_ann(rectAnn);
+//
+//    cv::seamlessClone(bobWarppedMat,anaSub,maskAnnSub,center,output,cv::NORMAL_CLONE);
+//
+//    output.copyTo(frame(rectAnn));
 }
 
 cv::Mat FaceSwap::getMinFrame(const cv::Mat &frame, cv::Rect &rect_ann, cv::Rect &rect_bob)
@@ -227,30 +246,50 @@ void FaceSwap::getFacePoints2(const cv::Mat &frame)
         return cv::Point2i(p.x(), p.y());
     };
 
-    for(int i = 0; i < 2; ++i)
-    {
-        pointsVet[i].push_back( getPoint(i, 0) );
-        pointsVet[i].push_back( getPoint(i, 3) );
-        pointsVet[i].push_back( getPoint(i, 5) );
-        pointsVet[i].push_back( getPoint(i, 8) );
-        pointsVet[i].push_back( getPoint(i, 11) );
-        pointsVet[i].push_back( getPoint(i, 13) );
-        pointsVet[i].push_back( getPoint(i, 16) );
+//    for(int i = 0; i < 2; ++i)
+//    {
+//        pointsVet[i].push_back( getPoint(i, 0) );
+//        pointsVet[i].push_back( getPoint(i, 3) );
+//        pointsVet[i].push_back( getPoint(i, 5) );
+//        pointsVet[i].push_back( getPoint(i, 8) );
+//        pointsVet[i].push_back( getPoint(i, 11) );
+//        pointsVet[i].push_back( getPoint(i, 13) );
+//        pointsVet[i].push_back( getPoint(i, 16) );
+//
+//        cv::Point2i nose_length = getPoint(i, 27) - getPoint(i, 30);
+//        pointsVet[i].push_back( getPoint(i, 26) + nose_length );
+//        pointsVet[i].push_back( getPoint(i, 17) + nose_length );
+//    }
 
-        cv::Point2i nose_length = getPoint(i, 27) - getPoint(i, 30);
-        pointsVet[i].push_back( getPoint(i, 26) + nose_length );
-        pointsVet[i].push_back( getPoint(i, 17) + nose_length );
+    for (int k = 0; k < 2; ++k) {
+        for (int i = 0; i < Face::chin_size; ++i) {
+            facePts[k].push_back(getPoint(k,i));
+        }
+//        for (int i = 0 ; i < Face::left_eyebrow_size; ++i) {
+//            left_eyebrow.emplace_back((int)shape.part(i + chin_size).x(), (int)shape.part(i + chin_size).y());
+//        }
+//        for (int i = 0 ; i < Face::right_eyebrow_size; ++i) {
+//            right_eyebrow.emplace_back((int)shape.part(static_cast<unsigned long>(i + chin_size + left_eyebrow_size)).x(), (int)shape.part(
+//                    static_cast<unsigned long>(i + chin_size + left_eyebrow_size)).y());
+//        }
+        for (int j = 0; j < Face::right_eyebrow_size; ++j) {
+            facePts[k].push_back(getPoint(k,Face::chin_size + Face::left_eyebrow_size + Face::right_eyebrow_size - 1 - j));
+        }
+        for (int j = 0; j < Face::left_eyebrow_size; ++j) {
+            facePts[k].push_back(getPoint(k,Face::chin_size + Face::left_eyebrow_size - 1 - j));
+        }
+
     }
 
-    affine_transform_keypoints_ann[0] = pointsVet[0][3];
+    affine_transform_keypoints_ann[0] = getPoint(0, 8);
     affine_transform_keypoints_ann[1] = getPoint(0, 36);
     affine_transform_keypoints_ann[2] = getPoint(0, 45);
 
-    affine_transform_keypoints_bob[0] = pointsVet[1][3];
+    affine_transform_keypoints_bob[0] = getPoint(1, 8);
     affine_transform_keypoints_bob[1] = getPoint(1, 36);
     affine_transform_keypoints_bob[2] = getPoint(1, 45);
 
-    feather_amount.width = feather_amount.height = (int)cv::norm(pointsVet[0][0] - pointsVet[0][6]) / 8;
+    feather_amount.width = feather_amount.height = (int)cv::norm(getPoint(0, 0) - getPoint(0, 16)) / 8;
 }
 
 void FaceSwap::getFacePoints(const cv::Mat &ann, const cv::Mat &bob)
@@ -322,8 +361,11 @@ void FaceSwap::getMasks()
 //    cv::fillConvexPoly(mask_ann, points_ann, 9, cv::Scalar(255));
 //    cv::fillConvexPoly(mask_bob, points_bob, 9, cv::Scalar(255));
 
-    cv::fillConvexPoly(mask_ann, pointsVet[0], cv::Scalar(255));
-    cv::fillConvexPoly(mask_bob, pointsVet[1], cv::Scalar(255));
+//    cv::fillConvexPoly(mask_ann, pointsVet[0], cv::Scalar(255));
+//    cv::fillConvexPoly(mask_bob, pointsVet[1], cv::Scalar(255));
+
+    cv::fillConvexPoly(mask_ann, facePts[0], cv::Scalar(255));
+    cv::fillConvexPoly(mask_bob, facePts[1], cv::Scalar(255));
 }
 
 void FaceSwap::getWarppedMasks()
@@ -420,7 +462,7 @@ inline void FaceSwap::pasteFacesOnFrame()
     }
 }
 
-void FaceSwap::specifiyHistogram(const cv::Mat source_image, cv::Mat target_image, cv::Mat mask)
+void FaceSwap::specifiyHistogram(const cv::Mat & source_image, cv::Mat target_image, cv::Mat mask)
 {
 
     std::memset(source_hist_int, 0, sizeof(int) * 3 * 256);

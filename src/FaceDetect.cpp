@@ -26,6 +26,9 @@ int detect_face_and_swap(string photo, string modelpath)
         return -1;
     }
 
+//    rect &= cv::Rect(0,0,img.cols,img.rows);
+//    rect2 &= cv::Rect(0,0,img2.cols,img2.rows);
+
     rect2.x += img.cols;
 
     int height = std::max(img.rows,img2.rows);

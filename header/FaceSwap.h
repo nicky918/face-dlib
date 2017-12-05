@@ -6,6 +6,7 @@
 #define FACEB_FACESWAP_H
 
 #include "common.h"
+#include "Face.h"
 
 class FaceSwap {
 public:
@@ -70,7 +71,7 @@ private:
     void pasteFacesOnFrame();
 
     // Calculates source image histogram and changes target_image to match source hist
-    void specifiyHistogram(const cv::Mat source_image, cv::Mat target_image, cv::Mat mask);
+    void specifiyHistogram(const cv::Mat & source_image, cv::Mat target_image, cv::Mat mask);
 
     cv::Rect rect_ann, rect_bob;
     cv::Rect big_rect_ann, big_rect_bob;
@@ -89,7 +90,8 @@ private:
     cv::Mat warpped_face_ann, warpped_face_bob;
 
     cv::Point2i points_ann[9], points_bob[9];
-    std::vector<cv::Point> pointsVet[2];
+//    std::vector<cv::Point> pointsVet[2];
+    std::vector<cv::Point> facePts[2];
     cv::Mat trans_ann_to_bob, trans_bob_to_ann;
     cv::Mat mask_ann, mask_bob;
     cv::Mat warpped_mask_ann, warpped_mask_bob;

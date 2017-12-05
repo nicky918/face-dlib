@@ -11,16 +11,26 @@ using namespace cv;
 
 int main(int argc, const char ** argv)
 {
-    // load model
-    if( faceSwap.init(modelPath) == -1)
-        return -1;
+    try {
 
-    string photo = "/Users/vista/Documents/PIC/searchimg/model/41.jpg";
-    string modelpath = "/Users/vista/Documents/PIC/searchimg/model/45.jpg";
+        // load model
+        if( faceSwap.init(modelPath) == -1)
+            return -1;
+
+        string photo = "/Users/vista/Documents/PIC/searchimg/model/69.jpg";
+        string modelpath = "/Users/vista/Documents/PIC/searchimg/model/50.jpg";
 
 //    detect_face_and_align(baseImgPath,baseImgPath2);
 
-    detect_face_and_swap(photo,modelpath);
+        detect_face_and_swap(photo,modelpath);
+
+    }catch (cv::Exception & cve){
+        std::cerr << cve.what() << std::endl;
+        return -1;
+    }catch (std::exception & se){
+        std::cerr << se.what() << std::endl;
+        return -1;
+    }
 
     return 0;
 }

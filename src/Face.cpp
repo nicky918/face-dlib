@@ -13,30 +13,24 @@ void Face::get_chin_eyebrow(const dlib::full_object_detection &shape)
     facePts.clear();
 
     for (int i = 0; i < chin_size; ++i) {
-        chin.push_back( cv::Point((int)shape.part(i).x(),(int)shape.part(i).y()) );
-//        face_pts[i] = chin[i];
+        chin.emplace_back( (int)shape.part(static_cast<unsigned long>(i)).x(), (int)shape.part(
+                static_cast<unsigned long>(i)).y() );
         facePts.push_back(chin[i]);
     }
     for (int i = 0 ; i < left_eyebrow_size; ++i) {
-        left_eyebrow.push_back( cv::Point((int)shape.part(i + chin_size).x(),(int)shape.part(i + chin_size).y()) );
-//        left_eyebrow.push_back( cv::Point((int)vec(i + chin_size,0),(int)vec(i + chin_size ,1)) );
-//        left_eyebrow[i - 16] = Point2d(vec(i,0),vec(i,1));
+        left_eyebrow.emplace_back((int)shape.part(i + chin_size).x(), (int)shape.part(i + chin_size).y());
     }
     for (int i = 0 ; i < right_eyebrow_size; ++i) {
-        right_eyebrow.push_back( cv::Point((int)shape.part(i + chin_size+ left_eyebrow_size).x(),(int)shape.part(i + chin_size+ left_eyebrow_size).y()) );
-//        right_eyebrow.push_back( cv::Point((int)vec(i + chin_size + left_eyebrow_size,0),(int)vec(i + chin_size + left_eyebrow_size ,1)) );
-//        right_eyebrow[i - 22] = Point2d(vec(i,0),vec(i,1));
+        right_eyebrow.emplace_back((int)shape.part(static_cast<unsigned long>(i + chin_size + left_eyebrow_size)).x(), (int)shape.part(
+                static_cast<unsigned long>(i + chin_size + left_eyebrow_size)).y());
     }
     for (int j = 0; j < 5; ++j) {
-//        face_pts[j+17] = right_eyebrow[4-j];
         facePts.push_back(right_eyebrow[4-j]);
     }
     for (int j = 0; j < 5; ++j) {
-//        face_pts[j+22] = left_eyebrow[4-j];
         facePts.push_back(left_eyebrow[4-j]);
     }
 
-//    face_bound = GetPtsBound(face_pts,27);
     face_bound = GetPtsBound(facePts);
 
 }
@@ -49,16 +43,16 @@ void Face::get_chin_eyebrow(Mat1d vec){
     facePts.clear();
 
     for (int i = 0; i < chin_size; ++i) {
-        chin.push_back( cv::Point((int)vec(i,0),(int)vec(i,1)) );
+        chin.emplace_back((int)vec(i,0),(int)vec(i,1));
 //        face_pts[i] = chin[i];
         facePts.push_back(chin[i]);
     }
     for (int i = 0 ; i < left_eyebrow_size; ++i) {
-        left_eyebrow.push_back( cv::Point((int)vec(i + chin_size,0),(int)vec(i + chin_size ,1)) );
+        left_eyebrow.emplace_back((int)vec(i + chin_size,0),(int)vec(i + chin_size ,1));
 //        left_eyebrow[i - 16] = Point2d(vec(i,0),vec(i,1));
     }
     for (int i = 0 ; i < right_eyebrow_size; ++i) {
-        right_eyebrow.push_back( cv::Point((int)vec(i + chin_size + left_eyebrow_size,0),(int)vec(i + chin_size + left_eyebrow_size ,1)) );
+        right_eyebrow.emplace_back((int)vec(i + chin_size + left_eyebrow_size,0),(int)vec(i + chin_size + left_eyebrow_size ,1));
 //        right_eyebrow[i - 22] = Point2d(vec(i,0),vec(i,1));
     }
     for (int j = 0; j < 5; ++j) {

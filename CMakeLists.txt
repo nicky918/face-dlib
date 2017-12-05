@@ -28,13 +28,13 @@ set(SEETA_FACE_LIBS /Users/vista/CLionProjects/SeetaFaceEngine/lib/libseeta_face
 include_directories(../SeetaFaceEngine/FaceDetection/include)
 
 set(source header/Utils.h src/FaceDetect.cpp src/Utils.cpp
-        header/FaceDetect.h header/common.h
-#        Main.cpp
+        header/FaceDetect.h header/common.h src/common.cpp
 #        face_detection_ex.cpp
         src/Face.cpp header/Face.h src/FaceSwap.cpp header/FaceSwap.h)
 
 set(libfile ${source} header/interface.h src/interface.cpp)
 
+set(execfile ${source} Main.cpp)
 
 #if you don't want to use openMP, you should comment this line
 #FIND_PACKAGE( OpenMP REQUIRED)
@@ -49,9 +49,9 @@ set(libfile ${source} header/interface.h src/interface.cpp)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
-#add_executable(faceB ${source})
+add_executable(faceB ${execfile})
 
-add_library(faceB SHARED ${libfile})
+#add_library(faceB SHARED ${libfile})
 
 #target_link_libraries(faceB ${OpenCV_LIBS} ${dlib_LIBS} ${SEETA_FACE_LIBS})
 
