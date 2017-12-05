@@ -23,7 +23,7 @@ else()
 #    include_directories(${dlib_INCLUDE_DIRS})
 endif()
 
-set(SEETA_FACE_LIBS ${PROJECT_SOURCE_DIR}/SeetaFaceEngine/FaceDetection/build/libseeta_facedet_lib.so)
+set(SEETA_FACE_LIBS ${PROJECT_SOURCE_DIR}/../SeetaFaceEngine/FaceDetection/build/libseeta_facedet_lib.so)
 
 set(dlib_so /usr/local/lib64/libdlib.so)
 

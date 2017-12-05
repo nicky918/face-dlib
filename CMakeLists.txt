@@ -23,7 +23,7 @@ else()
 #    include_directories(${dlib_INCLUDE_DIRS})
 endif()
 
-set(SEETA_FACE_LIBS /Users/vista/CLionProjects/SeetaFaceEngine/lib/libseeta_facedet_lib.dylib)
+set(SEETA_FACE_LIBS ${PROJECT_SOURCE_DIR}/../SeetaFaceEngine/lib/libseeta_facedet_lib.dylib)
 
 include_directories(../SeetaFaceEngine/FaceDetection/include)
 
@@ -49,9 +49,9 @@ set(execfile ${source} Main.cpp)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
-add_executable(faceB ${execfile})
+#add_executable(faceB ${execfile})
 
-#add_library(faceB SHARED ${libfile})
+add_library(faceB SHARED ${libfile})
 
 #target_link_libraries(faceB ${OpenCV_LIBS} ${dlib_LIBS} ${SEETA_FACE_LIBS})
 
