@@ -71,7 +71,6 @@ void FaceSwap::swapFaces2(cv::Mat &frame, cv::Rect &rect_ann, cv::Rect &rect_bob
 
     getFacePoints2(small_frame);
 
-
 //    for (int i = 0; i < 2; ++i) {
 //        for (auto itr = this->facePts[i].begin(); itr != facePts[i].end(); ++itr) {
 //            cv::circle(small_frame,*itr,3,cv::Scalar(0,255,0));
@@ -108,6 +107,9 @@ void FaceSwap::swapFaces2(cv::Mat &frame, cv::Rect &rect_ann, cv::Rect &rect_bob
     cv::warpAffine(face_ann, warpped_face_ann, trans_ann_to_bob, frame_size, cv::INTER_NEAREST, cv::BORDER_CONSTANT, cv::Scalar(0, 0, 0));
     cv::warpAffine(face_bob, warpped_face_bob, trans_bob_to_ann, frame_size, cv::INTER_NEAREST, cv::BORDER_CONSTANT, cv::Scalar(0, 0, 0));
 
+//    cv::imshow("img",face_ann);
+//    cv::waitKey(0);
+
     warpped_face_ann.copyTo(warpped_faces_ann, warpped_mask_ann);
     warpped_face_bob.copyTo(warpped_faces_bob, warpped_mask_bob);
 
@@ -123,12 +125,15 @@ void FaceSwap::swapFaces2(cv::Mat &frame, cv::Rect &rect_ann, cv::Rect &rect_bob
 
     cv::Mat annWarppedMat = warpped_face_ann(rectBob);
 
+//    annWarppedMat
+
     cv::Point center = cv::Point(rectBob.width/2,rectBob.height/2);
     cv::Mat bobSub = small_frame(rectBob);
     cv::Mat maskbobSub = mask_bob(rectBob);
 
     Mat output;
     cv::seamlessClone(annWarppedMat,bobSub,maskbobSub,center,output,cv::MONOCHROME_TRANSFER);
+
 
     output.copyTo(frame(rectBob));
 

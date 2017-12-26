@@ -100,11 +100,11 @@ int swap_head_ex(string first_file_path, string second_file_path){
     }
     face2.GetOutLine(image2);
     face2.get_head_img(image2);
-
-//    cv::polylines(image,face.getFacePts(),true,cv::Scalar(255,0,0));
-
+//
+//    cv::polylines(image,face.getHead_pts(),true,cv::Scalar(255,0,0));
+//
 //    cv::polylines(image2,face2.getHead_pts(),true,cv::Scalar(255,0,0));
-
+//
 //    cv::imshow("head",image);
 //    cv::imshow("head2",image2);
 //    waitKey(0);

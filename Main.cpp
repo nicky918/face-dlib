@@ -17,12 +17,12 @@ int main(int argc, const char ** argv)
         if( faceSwap.init(modelPath) == -1)
             return -1;
 
-        string photo = "/Users/vista/Documents/PIC/searchimg/model/69.jpg";
-        string modelpath = "/Users/vista/Documents/PIC/searchimg/model/50.jpg";
+        string photo = "/Users/vista/Documents/PIC/searchimg/model/4.jpg";
+        string modelpath = "/Users/vista/Documents/PIC/searchimg/model/17.jpg";
 
-//    detect_face_and_align(baseImgPath,baseImgPath2);
+        swap_head_ex(photo,modelpath);
 
-        detect_face_and_swap(photo,modelpath);
+//        detect_face_and_swap(photo,modelpath);
 
     }catch (cv::Exception & cve){
         std::cerr << cve.what() << std::endl;

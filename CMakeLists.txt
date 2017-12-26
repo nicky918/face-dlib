@@ -47,11 +47,11 @@ set(execfile ${source} Main.cpp)
 #    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 #endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
-#add_executable(faceB ${execfile})
+add_executable(faceB ${execfile})
 
-add_library(faceB SHARED ${libfile})
+#add_library(faceB SHARED ${libfile})
 
 #target_link_libraries(faceB ${OpenCV_LIBS} ${dlib_LIBS} ${SEETA_FACE_LIBS})
 
