@@ -24,25 +24,27 @@ make install -j4
 # how to use
 
 ```
-int init(const char * dir, const char* model2)
+int init(const char * model1, const char* model2)
 
-dir - directory of pictures
+model1 - file ``seeta_fd_frontal_v1.0.bin`` [@SeetaFaceEngine to find it]
 model2 - file of landmarks, you can download it from http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2
 
 set_outpath(const char *a)
-a - filename , for example 1.jpg
+a - filename : full path
 ```
 
-u must run init&set_outpath at first and once
+u must run init at first and once
+
+then run set_outpath
 
 ```
 return -1 if failed, otherwise success
-a - photo of head given
-b - model of body
+a - photo of head given : full path
+b - model of body : full path
 int swap_head(const char *a, const char *b)
 
 return -1 if failed, otherwise success
-a - photo of face given
-b - model of body
+a - photo of face given : full path
+b - model of body : full path
 int swap_face(const char *a, const char *b)
 ```
